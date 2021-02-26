@@ -1,12 +1,12 @@
-import {ImageBackground, StyleSheet,Text,View,Image} from 'react-native'
+import {ImageBackground, StyleSheet,Text,View,Image, Button} from 'react-native'
 import { StatusBar } from 'expo-status-bar';
 import { AppLoading } from 'expo';
 import React from 'react';
-const Home = () =>{
+const Home = ({navigation}) =>{
   
     return(
-        <>
-                <ImageBackground source={require('../assets/fondo_mapa3.jpg')} resizeMode='cover' style={styles.bgImage}>
+        
+                <ImageBackground source={{uri:'https://static.vecteezy.com/system/resources/previews/000/626/032/non_2x/soft-geometric-abstract-background-in-light-colors-vector.jpg'}} resizeMode='cover' style={styles.bgImage}>
                     <View style={styles.logo}>
                         <ImageBackground style={styles.logoImg} resizeMode='contain' source={require('../assets/logo.png')} >
                           {/*   <ImageBackground style={styles.logoImg} /> */}
@@ -15,11 +15,12 @@ const Home = () =>{
                         <View style={styles.slogan}>
                             <Text>Find your perfect trip, designed by insiders who know and love their cities</Text>
                          </View>
+                         <Button title='Discover Cities' onPress={() =>navigation.navigate('Cities')}/>
                        
                 </ImageBackground>
             
      
-        </>
+       
     )
 }
 
