@@ -1,17 +1,14 @@
 import React from 'react'
-import {Text,View,ImageBackground, StyleSheet, Alert} from 'react-native'
+import {Text,View,ImageBackground, StyleSheet} from 'react-native'
 
 
 
 const City = ({city}) =>{
 
-    const cityPhoto= require(`../assets/paris.jpg`)
-    
-
     return (
 
             <View style={styles.city}>
-                <ImageBackground style={styles.cityImg} source={cityPhoto}>
+                <ImageBackground imageStyle={{borderRadius:15}} style={styles.cityImg} source={{uri:city.cityPic}}>
                     <Text style={styles.cityName}>{city.cityName}</Text>
                 </ImageBackground>
            </View>
@@ -25,9 +22,9 @@ const styles = StyleSheet.create({
         height:150,
         justifyContent:'center',
         alignItems:'center',
-        backgroundColor:'red',
+        borderRadius:15,
         margin: 6,
-     
+    
     },
     cityImg:{
         flex:1,
@@ -46,7 +43,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.46,
         shadowRadius: 11.14,
 
-        elevation: 17,
+        elevation: 11,
             
     },
     cityName:{
@@ -54,8 +51,7 @@ const styles = StyleSheet.create({
         width:'100%',
         color:'white',
         fontWeight:'bold',
-        backgroundColor:'rgba(193,66,66,0.56)',
-        
+        backgroundColor:'rgba(193,66,66,0.56)',  
         textAlign:'center'
     }
 })

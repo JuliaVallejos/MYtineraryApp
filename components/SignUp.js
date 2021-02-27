@@ -2,11 +2,13 @@ import React from 'react'
 import { Alert, Button, StyleSheet, TextInput, ToastAndroid, View,Text, ImageBackground, TouchableOpacity} from 'react-native'
 import {useState,useEffect} from 'react'
 import SelectPicker from 'react-native-form-select-picker'
-import axios from 'axios'
 import Countries from './Countries'
+import KeyboardAwareScrollView from 'react-native-keyboard-aware-scroll-view'
+import {connect} from 'react-redux'
+import userActions from '../redux/actions/userActions'
 
 
-const SignUp = (props) =>{
+const SignUp = ({loggedUser,createNewUser}) =>{
     const [errors,setErrors] = useState([])
   
    
@@ -17,7 +19,7 @@ const SignUp = (props) =>{
         lastName:'',
         country:''
     })
-    const [loggedUser,setLoggedUser] = useState({})
+  
 
     const send_data= async () =>{
       
@@ -27,30 +29,33 @@ const SignUp = (props) =>{
                 return false
             }
         
-        try{
-            const data = await axios.post('http://192.168.0.3:4000/api/user/register',newUser)
+            const data= await createNewUser(newUser)
             console.log(data)
-        if (data.data.success){
-            /* ToastAndroid.show(`Welcome ${data.data.response.name}`,ToastAndroid.LONG) */
-            alert(`Welcome ${data.data.response.name}`)
-            setLoggedUser(data.data.response)
-        }else{
-            console.log(data.data.errores.details)
-            setErrors(data.data.errores.details)
-
-        }
-        }catch(error){
-            console.log(error)
-           /*  ToastAndroid.show('Something went wrong',ToastAndroid.SHORT) */
-        }
+            if (!data.errores){
+                ToastAndroid.show(`Welcome ${data.name}`,ToastAndroid.LONG)
+                setErrors([])
+         
+           }else{
+             setErrors(data.errores.details)
+   
+           }
+            
+           
+        
         
 
     }
 
 
     return (
-        <ImageBackground style={styles.bgForm} source={require('../assets/avion.jpg')}>
+        <ImageBackground style={styles.bgForm} source={require('../assets/background.jpg')}>
         <Text style={styles.title}>Create an account</Text>
+       {/*  <KeyboardAwareScrollView
+            resetScrollToCoords={{ x: 0, y: 0 }}
+            contentContainerStyle={styles.container}
+            scrollEnabled
+        > */}
+        
         <View style={styles.form}>
             <TextInput style={styles.inp} onChangeText={(name) =>setNewUser({...newUser,name})}  placeholder='First Name*'/>
             <TextInput style={styles.inp} onChangeText={(lastName) =>setNewUser({...newUser,lastName})}  placeholder='Last Name*'/>
@@ -61,8 +66,9 @@ const SignUp = (props) =>{
                 <Text style={styles.send}>SEND</Text>
             </TouchableOpacity>
             {console.log(errors)}
-            {errors.length!==0&& errors.map(error=><Text>{error.message}</Text>)}
+            {errors.length!==0&& errors.map(error=><Text style={styles.error}>{error.message}</Text>)}
         </View>
+    {/*     </KeyboardAwareScrollView> */}
         </ImageBackground>
     )
 }
@@ -75,16 +81,15 @@ const styles = StyleSheet.create({
     },
     title:{
      
-        fontSize:20,
-        backgroundColor:'red',
-        alignItems:'center',
-        justifyContent:'center',
+        fontSize:40,
+        textAlign:'center', 
         marginBottom:'5%'
     },
     form:{
         justifyContent:'space-between',
-        paddingBottom:'5%'
-  
+        paddingBottom:'5%',
+        width:'70%',
+        height:'35%'
     },
     inp:{
         fontSize:15,
@@ -92,21 +97,36 @@ const styles = StyleSheet.create({
         borderWidth:1,
         borderColor:'blue',
         borderRadius:15,
-        paddingLeft:'3%'
+        paddingStart:10,
+
+     
     },
     sendBtn:{
         backgroundColor:'brown',
         alignItems:'center',
-        width:'40%',
-        borderRadius:5,
-        marginTop:'5%',
+        justifyContent:'center',
+        borderRadius:20,
         alignSelf:'center',
+        width:'50%',
+        height:'10%'
     },
     send:{
         color:'white',
-        fontWeight:'bold'
+        fontWeight:'bold',
+        marginBottom:'5%'
 
+    },
+    error:{
+        textAlign:'center'
     }
 })
-
-export default SignUp
+ 
+const mapStateToProps = state =>{
+    return {
+        loggedUser:state.user.loggedUser
+    }
+}
+const mapDispatchToProps = {
+    createNewUser:userActions.createNewUser
+}
+export default connect(mapStateToProps,mapDispatchToProps)(SignUp)

@@ -19,10 +19,10 @@ const Countries = ({setNewUser,newUser}) =>{
 
     return (
         <View>
-        <SelectPicker style={styles.inp} label='Country*' placeholder='Country*' onValueChange={(country) =>setNewUser({...newUser,country})}>
+        <SelectPicker style={styles.inp} default='' label='Country*' placeholder='Country*' onValueChange={(country) =>setNewUser({...newUser,country})}>
                {countries.map((country,index) =>{
                     return(
-                        <SelectPicker.Item label={country.name} value={country.name} key={index}>{country.name}</SelectPicker.Item>
+                        <SelectPicker.Item label={country.name} value={country.name} key={country.name}>{country.name}</SelectPicker.Item>
                     )
                 })}
             </SelectPicker>
@@ -37,10 +37,11 @@ const styles= StyleSheet.create({
         borderWidth:1,
         borderColor:'blue',
         borderRadius:15,
-        padding:0,
-        paddingLeft:'3%',
-    
-    }
+        paddingStart:10,
+        height:'35%',
+        justifyContent:'center'
+     
+    },
 
 })
 

@@ -1,35 +1,34 @@
 import React from 'react'
-import { Alert, Button, TextInput, ToastAndroid, View,StyleSheet,ImageBackground,Text} from 'react-native'
+import { Alert, Button, TextInput, TouchableOpacity,ToastAndroid, View,StyleSheet,ImageBackground,Text} from 'react-native'
 import {useState,useEffect} from 'react'
-import axios from 'axios'
+import {connect} from 'react-redux'
+import userActions from '../redux/actions/userActions'
 
 
-const Login = (props) =>{
+const Login = ({loginUser}) =>{
     const [errors,setErrors] = useState([])
-  
-    const [loginUser,setLoginUser] = useState({
+    const [userToLogin,setUserToLogin] = useState({
         username:'',
         password:''
     })
-    const [loggedUser,setLoggedUser] = useState({})
 
     const send_data= async () =>{
-        try{
-            const data = await axios.post('http://192.168.0.3:4000/api/user/login',loginUser)
-            console.warn(data)
-        if (data.data.success){
-            alert(`Welcome ${data.data.response.name}`)
-            /* ToastAndroid.show(`Welcome ${data.data.response.name}`,ToastAndroid.LONG) */
-            setLoggedUser(data.data.response)
+        const {username,password} = userToLogin
+            if(username==='' || password===''){
+                setErrors([{message:'All required(*) fields must be completed'}])
+                return false
+            }
+            const data = await loginUser(userToLogin)
+        if (!data.errores){
+             ToastAndroid.show(`Welcome ${data.name}`,ToastAndroid.LONG)
+             setErrors([])
+             
+      
         }else{
-            setErrors(data.data.errores.details)
-           /*  ToastAndroid.show(data.data.errores.details,ToastAndroid.SHORT) */
+          setErrors(data.errores.details)
 
         }
-        }catch(error){
-            alert('Something went wrong')
-          /*   ToastAndroid.show('Something went wrong',ToastAndroid.SHORT) */
-        }
+        
         
 
     }
@@ -37,13 +36,17 @@ const Login = (props) =>{
     
 
     return (
-        <ImageBackground style={styles.bgForm} source={require('../assets/avion.jpg')}>
+        <ImageBackground style={styles.bgForm} source={require('../assets/background.jpg')}>
             <View style={styles.form}>
                 <Text style={styles.title}>Log In</Text>
-                <TextInput style={styles.inp} onChangeText={(username) =>setLoginUser({...loggedUser,username})}  placeholder='Username(email)'/>
-                <TextInput style={styles.inp} onChangeText={(password) =>setLoginUser({...loggedUser,password})} placeholder='Password' secureTextEntry/>
-                <Button onPress={send_data}title='Send'/>
-                {errors.length!==0&& errors.map(error=><Text>{error.message}</Text>)}
+                <View style={styles.inputs}>
+                <TextInput style={styles.inp} onChangeText={(username) =>setUserToLogin({...userToLogin,username})}  placeholder='Username(email)'/>
+                <TextInput style={styles.inp} onChangeText={(password) =>setUserToLogin({...userToLogin,password})} placeholder='Password' secureTextEntry/>
+                </View>
+                <TouchableOpacity style={styles.sendBtn} onPress={send_data}title='Send'>
+                <Text style={styles.send}>SEND</Text>
+                </TouchableOpacity>
+                {errors.length!==0&& errors.map((error,index)=><Text key={index} style={styles.error}>{error.message}</Text>)}
             </View>
         </ImageBackground>
     )
@@ -57,37 +60,52 @@ const styles = StyleSheet.create({
     },
     title:{
      
-        fontSize:20,
-        backgroundColor:'red',
-        alignItems:'center',
-        justifyContent:'center',
+        fontSize:40,
+        textAlign:'center', 
         marginBottom:'5%'
     },
     form:{
         justifyContent:'space-between',
-        paddingBottom:'5%'
-  
+        paddingBottom:'5%',
+        width:'70%'
+    },
+    inputs:{
+        height:'30%',
+        justifyContent:'space-around'
     },
     inp:{
         fontSize:15,
         backgroundColor:'white',
-        borderWidth:1,
+        borderWidth:1,        
         borderColor:'blue',
         borderRadius:15,
-        paddingLeft:'3%'
+        paddingStart:'5%'
     },
     sendBtn:{
         backgroundColor:'brown',
         alignItems:'center',
-        width:'40%',
-        borderRadius:5,
-        marginTop:'5%',
+        justifyContent:'center',
+        borderRadius:20,
         alignSelf:'center',
+        width:'50%',
+        height:'10%'
     },
     send:{
         color:'white',
         fontWeight:'bold'
 
+    },
+    error:{
+        textAlign:'center'
     }
 })
-export default Login
+const mapStateToProps= state =>{
+    return{
+        loggedUser:state.user.loggedUser
+
+    }
+}
+const mapDispatchToProps = {
+    loginUser:userActions.loginUser
+}
+export default connect(mapStateToProps,mapDispatchToProps)(Login)

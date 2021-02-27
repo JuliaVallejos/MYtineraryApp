@@ -10,7 +10,6 @@ const Itineraries = (props) =>{
     const idCity=props.route.params.idCity
     const cityName=props.route.params.cityName
     const cityPic=props.route.params.cityPic
-    const cityPhoto= require(`../assets/paris.jpg`)
     const [loading,setLoading] = useState(false)
 
     const [itineraries,setItineraries]=useState([])
@@ -35,7 +34,7 @@ const Itineraries = (props) =>{
   </AnimatedLoader> */<Text>Doing something...</Text>}
     return(
         <View style={styles.itineraries}>
-            <ImageBackground style={styles.imgCity} source={cityPhoto}>
+            <ImageBackground style={styles.imgCity} source={{uri:cityPic}}>
                 <Text style={styles.cityName}>{cityName}</Text> 
             </ImageBackground>
             <ScrollView style={{backgroundColor:'#982C19'}}>
