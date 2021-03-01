@@ -1,7 +1,6 @@
 import React from 'react'
 import {KeyboardAvoidingView, Alert, Button, StyleSheet, TextInput, Keyboard,ScrollView, ToastAndroid, View,Text, ImageBackground,TouchableWithoutFeedback, TouchableOpacity} from 'react-native'
 import {useState,useEffect} from 'react'
-import SelectPicker from 'react-native-form-select-picker'
 import Countries from './Countries'
 import {connect} from 'react-redux'
 import userActions from '../redux/actions/userActions'
@@ -96,8 +95,9 @@ const styles = StyleSheet.create({
         color:'#322b53'
     },
     containerForm:{
-        flex:2,
+        flex:3,
         justifyContent:'center',
+        height:350
 
     },
     form:{
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
        alignSelf:'center',
         width:'80%',
        flex:1,
-       height:350,
+     
     
     },
   
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     logo:{
  
         width:'100%',
-        height:'20%',
+        height:'25%',
         justifyContent:'flex-end',
     
     },

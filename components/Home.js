@@ -1,7 +1,5 @@
 import {ImageBackground, StyleSheet,LogBox,Text,View,Image, Button} from 'react-native'
 import { StatusBar } from 'expo-status-bar';
-
-import {useState,useEffect} from 'react'
 import CarouselPhoto from './CarouselPhoto'
 import {connect} from 'react-redux'
 
