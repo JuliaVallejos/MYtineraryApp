@@ -1,9 +1,11 @@
 import React from 'react'
 import {useState,useEffect} from 'react'
 import City from './City'
+import NoResults from './NoResults'
 import { View,Text, StyleSheet, Touchable,ScrollView, ImageBackground, RefreshControl} from 'react-native'
-import {TouchableOpacity,TouchableHighlight, TextInput} from 'react-native-gesture-handler'
+import {TouchableNativeFeedback,TouchableHighlight, TextInput, TouchableWithoutFeedback} from 'react-native-gesture-handler'
 import {connect} from 'react-redux'
+import Spinner from 'react-native-loading-spinner-overlay'
 import citiesActions from '../redux/actions/citiesActions'
 
 const Cities = (props) =>{
@@ -25,28 +27,33 @@ const [search,setSearch] = useState('')
     const data = await getCities()
     if(data){
         setLoading(false)
+
     }
  }
     return (
         <>
-        <Text style={styles.find}>Find your city!</Text>
-        <TextInput  type='text' placeholder='Find your City!' value={search} onChangeText={(value) => setSearch(value)} ></TextInput>
-        <ScrollView style={styles.citiesContainer} refreshControl={<RefreshControl onRefresh={()=> alert('refresh')}/>}>
-            <ImageBackground style={{flex:1}} source={{uri:'https://static.vecteezy.com/system/resources/previews/000/626/032/non_2x/soft-geometric-abstract-background-in-light-colors-vector.jpg'}}>
-            {filteredCities.map(city =>{
+        
+        <ImageBackground style={{flex:1}} source={{uri:'https://static.vecteezy.com/system/resources/previews/000/626/032/non_2x/soft-geometric-abstract-background-in-light-colors-vector.jpg'}}>
+        <TextInput style={styles.find} type='text' placeholder='Find your City!' value={search} onChangeText={(value) => setSearch(value)} ></TextInput>
+        <ScrollView style={styles.citiesContainer}>           
+        <Spinner color='#645fce'
+            visible={loading}
+          textContent={'Loading...'}
+          textStyle={{color:'#645fce'}}/>
+            {!loading && filteredCities.map(city =>{
                 return(
   
-                    
-                 <TouchableHighlight onPress={() =>  props.navigation.navigate('Itineraries',{idCity:city._id,cityName:city.cityName,cityPic:city.cityPic}) } key={city._id} style={styles.city} > 
+                 <TouchableHighlight activeOpacity = { 0.9 } underlayColor = '#3F7FBF' onPress={() =>  props.navigation.navigate('ITINERARIES',{idCity:city._id,cityName:city.cityName,cityPic:city.cityPic,setSearch}) } key={city._id} style={styles.city} > 
                      
-                         <City key={city._id} city={city}/>   
+                         <City setSearch={setSearch} key={city._id} city={city}/>   
                    
                    </TouchableHighlight> 
-             
                 )
             })}
-            </ImageBackground>
+            {(filteredCities.length===0 && !loading)&& <NoResults/>}
+            
         </ScrollView>
+        </ImageBackground>
         </>
 
 
@@ -63,11 +70,15 @@ const styles=StyleSheet.create({
     },
     citiesContainer:{
         flex:1,
-        backgroundColor:'grey',
-       
-
+     
+     
     },
-  /*  */
+    city:{
+        borderRadius:20,
+        margin:1
+ 
+    }
+
  })
 const mapStateToProps= state =>{
     return{

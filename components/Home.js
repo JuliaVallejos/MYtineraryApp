@@ -1,39 +1,43 @@
 import {ImageBackground, StyleSheet,Text,View,Image, Button} from 'react-native'
 import { StatusBar } from 'expo-status-bar';
-import { AppLoading } from 'expo';
+
+import {useState,useEffect} from 'react'
 import CarouselPhoto from './CarouselPhoto'
 import {connect} from 'react-redux'
-import LottieView from 'lottie-react-native'
+
 import React from 'react';
-import { DrawerContentScrollView, DrawerItem, DrawerItemList } from '@react-navigation/drawer';
+
 const Home = (props) =>{
-  const {navigation,loggedUser} = props
+    const {navigation,loggedUser} = props
+    const[fontLoaded,setFontLoaded] = useState(false)
+ 
     return(
         
                 <ImageBackground source={{uri:'https://static.vecteezy.com/system/resources/previews/000/626/032/non_2x/soft-geometric-abstract-background-in-light-colors-vector.jpg'}} resizeMode='cover' style={styles.bgImage}>
                    
-                   {/*  <Text style={styles.menu} title='Menu' onPress={() => props.navigation.toggleDrawer()}>Menu</Text> */}
+                   {loggeUser && <Text style={styles.menu}>Hi {loggedUser.name}</Text>}
                     
                     <View style={styles.logo}>
-                        <ImageBackground style={styles.logoImg} resizeMode='contain' source={require('../assets/logo.png')} >
-
+                        <ImageBackground style={styles.logoImg} resizeMode='contain' source={require('../assets/logo_transparent.png')}>
                         </ImageBackground>
                     </View>
                     <View style={styles.slogan}>
                         <Text style={styles.text}>{'Find your perfect trip, designed by insiders who know and love their cities'.toUpperCase()}</Text>
                     </View>
-                    <View style={styles.discover} >
-                    <Text style={styles.discoverBtn} title='Discover Cities' onPress={() =>navigation.navigate('Cities')}>DISCOVER CITIES</Text>
+                    <View style={styles.viewDiscover}>
+                        <View style={styles.discover} >
+                            <Text style={styles.discoverBtn} title='Discover Cities' onPress={() =>navigation.navigate('CITIES')}>DISCOVER CITIES</Text>
+                        </View>
                     </View>
-                    <CarouselPhoto/>
+                    <CarouselPhoto/> 
                    
                     {!loggedUser&&
                     <View style={styles.btns}>
                         <View style={styles.discover} >
-                        <Text style={styles.btnsText} title='Login' onPress={() =>navigation.navigate('Login')}>Login</Text>
+                        <Text style={styles.btnsText} title='LOGIN' onPress={() =>navigation.navigate('LOGIN')}>Login</Text>
                         </View>
                         <View style={styles.discover} >
-                        <Text style={styles.btnsText} title='Sign Up' onPress={() =>navigation.navigate('SignUp')}>Sign Up</Text>
+                        <Text style={styles.btnsText} title='SIGN UP' onPress={() =>navigation.navigate('SIGN UP')}>Sign Up</Text>
                         </View>
                     </View>}
            
@@ -49,8 +53,8 @@ const styles = StyleSheet.create({
        textAlign:'center',
         flex:2,
         padding:5,
-        
-
+  
+  
     },
     menu:{
         color:'black',
@@ -62,20 +66,22 @@ const styles = StyleSheet.create({
     text:{
         fontSize:25,
         textAlign:'center',
-        color:'black'
+        color:'#645fce',
+   /*     fontFamily:'Marmelad-Regular' */
+      
     },
 
     logo:{
         marginTop:'10%',
         width:'100%',
-        flex:3,
+        flex:5,
         justifyContent:'flex-end' 
        
 
     },
     logoImg:{
         width:'100%',
-        height:'75%',
+        height:'100%',
       
     },
     bgImage:{
@@ -85,15 +91,21 @@ const styles = StyleSheet.create({
         alignItems:'center',
         flex:1
     },
+    viewDiscover:{
+        marginTop:'8%',
+        flex:1
+    },
     discover:{
      marginBottom:20,
-        backgroundColor:'brown',
+        backgroundColor:'#322b53',
         padding:10,
-        borderRadius:15
+        borderRadius:15,
+        height:40
     },
     discoverBtn:{
         color:'white',
-        fontWeight:'bold'
+        fontWeight:'bold',
+       
     },
     btns:{
         flexDirection:'row',

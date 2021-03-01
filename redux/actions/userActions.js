@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios'
 
 const userActions  ={
@@ -20,7 +21,6 @@ const userActions  ={
         return async (dispatch,getstate) => {
             try{
               const data = await axios.post('https://mytinerary-api.herokuapp.com/api/user/login',userToLogin)
-              console.log(data)
               if (data.data.success){
                 
                 dispatch({type:'LOGIN', payload:data.data.response})
@@ -51,8 +51,7 @@ const userActions  ={
               
             if(error.response)
               {if(error.response.status===401){
-                localStorage.clear()
-                Swal.fire('You are not authorized')
+              AsyncStorage.clear()
                 const backToHome ='/'
                 return backToHome}
               }else {

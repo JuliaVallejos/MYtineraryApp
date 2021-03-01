@@ -15,12 +15,12 @@ const Countries = ({setNewUser,newUser}) =>{
         })
         
     },[])
-    console.log(newUser)
+
 
     return (
         <View>
         <SelectPicker style={styles.inp} default='' label='Country*' placeholder='Country*' onValueChange={(country) =>setNewUser({...newUser,country})}>
-               {countries.map((country,index) =>{
+               {countries.map((country) =>{
                     return(
                         <SelectPicker.Item label={country.name} value={country.name} key={country.name}>{country.name}</SelectPicker.Item>
                     )
@@ -35,10 +35,10 @@ const styles= StyleSheet.create({
         fontSize:15,
         backgroundColor:'white',
         borderWidth:1,
-        borderColor:'blue',
+        borderColor:'#3F7FBF',
         borderRadius:15,
         paddingStart:10,
-        height:'35%',
+        height:'30%',
         justifyContent:'center'
      
     },

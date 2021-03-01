@@ -1,42 +1,49 @@
-import React from 'react'
-import {View,Text,StyleSheet,Image} from 'react-native'
 
-
+import * as React from 'react';
+import Carousel from 'react-native-looped-carousel'
+import {useState,useEffect} from 'react'
+import {View,Text,StyleSheet,Image, ImageBackground} from 'react-native'
+import { FlatList } from 'react-native-gesture-handler';
+import CarouselActivities from './CarouselActivities'
 const SingleItinerary = ({itinerary}) =>{
- 
+    const [pictures,setPictures] = useState(false)
     return(
         <View style={styles.itinerary}>
             <Text style={styles.itTitle}>{itinerary.title}</Text>
-            <View style={styles.info}>
-                <Text>{itinerary.likes.length} likes</Text>
-                <Text>{itinerary.duration} hs</Text>
-                <Text>{'$'.repeat(itinerary.price)} </Text>
+            <View style={{flexDirection:'row',justifyContent:'space-around',alignItems:'center'}}>
+                <View style={{alignItems:'center'}}>
+                <Image style={styles.userPic} source={{uri:itinerary.userPic}}/> 
+                <Text style={{color:'#322b53'}}>{itinerary.userName}</Text>
+                </View>
+                <View style={styles.info}>
+                    <Text style={{color:'#322b53'}}>{itinerary.likes.length} ❤️</Text>
+                    <Text style={{color:'#322b53'}}>{itinerary.duration} hs</Text>
+                    <Text style={{color:'#322b53'}}>{'💵 '.repeat(itinerary.price)} </Text>
+                </View>
             </View>
-            <View style={{alignItems:'center'}}>
-             <Image style={styles.userPic} source={{uri:itinerary.userPic}}/> 
-             <Text>{itinerary.userName}</Text>
-            </View>
+       <Text style={styles.view} onPress={() =>setPictures(!pictures)}>{pictures? 'Hide ': 'View '}Photos</Text>
+      {pictures&&<CarouselActivities activities={itinerary.activities}/>}
+            
         </View>
     )
 
 }
 const styles= StyleSheet.create({
     itTitle:{
-        marginTop:'4%',
+        margin:'3%',
         fontWeight:'bold',
         fontSize:15,
-        textAlign:'center'
+        textAlign:'center',
+        color:'#322b53'
     },
     itinerary:{
         flex:1,
-        backgroundColor:'white',
-        height:150,
+        backgroundColor:'#ededf5',
+        minHeight:150,
         margin:'4%',
         borderRadius:10
     },
     info:{
-        marginTop:'3%',
-        flexDirection:'row',
         justifyContent:'space-around'
     },
     userPic:{
@@ -45,6 +52,14 @@ const styles= StyleSheet.create({
         width:50,
         borderRadius:100
         
+    },
+    view:{
+        marginTop:'6%',
+        backgroundColor:'#c6cbef',
+        textAlign:'center',
+        padding:2,
+    
+
     }
 
 })

@@ -1,10 +1,9 @@
 import React from 'react'
 import {useState,useEffect} from 'react'
-import { ImageBackground, StyleSheet, Text, View } from 'react-native'
+import { ImageBackground, StyleSheet, Text, View,TouchableOpacity } from 'react-native'
 import SingleItinerary from './SingleItinerary'
 import { ScrollView } from 'react-native-gesture-handler'
-/* import AnimatedLoader from 'react-native-animated-loader'
- */
+import Spinner from 'react-native-loading-spinner-overlay'
 
 const Itineraries = (props) =>{
     const idCity=props.route.params.idCity
@@ -21,35 +20,40 @@ const Itineraries = (props) =>{
          setItineraries(data.response)
          setLoading(false)})
       .catch(error =>console.log(error))
-  }, [])  
-  if(loading){
-    /* <AnimatedLoader
-    visible={visible}
-    overlayColor="rgba(255,255,255,0.75)"
-    source={require("./loader.json")}
-    animationStyle={styles.lottie}
-    speed={1}
-  >
-    <Text>Doing something...</Text>
-  </AnimatedLoader> */<Text>Doing something...</Text>}
+  }, []) 
+   useEffect(() => {
+    props.route.params.setSearch('')
+}, []) 
+
     return(
-        <View style={styles.itineraries}>
+        <ImageBackground source={require('../assets/background.jpg')}style={styles.itineraries}>
+            <Spinner color='#645fce'
+            visible={loading}
+          textContent={'Loading...'}
+          textStyle={{color:'#645fce'}}/>
+            {!loading&& 
+            <>
             <ImageBackground style={styles.imgCity} source={{uri:cityPic}}>
                 <Text style={styles.cityName}>{cityName}</Text> 
             </ImageBackground>
-            <ScrollView style={{backgroundColor:'#982C19'}}>
+            <ScrollView>
                 {itineraries.length===0?
                 <View style={styles.noResults}>
-                <ImageBackground style={{height:'100%',width:'100%',justifyContent:'center'}}source={{uri:'https://static.vecteezy.com/system/resources/previews/000/626/032/non_2x/soft-geometric-abstract-background-in-light-colors-vector.jpg'}}><Text style={{fontWeight:'bold',textAlign:'center',color:'black'}}>No itineraries yet. Make One!</Text></ImageBackground></View>
+               <Text style={{fontWeight:'bold',textAlign:'center',color:'black'}}>No itineraries yet. Make One!</Text></View>
                 :
                 itineraries.map(itinerary =>{
                     return(
                     <SingleItinerary key={itinerary._id} itinerary={itinerary}/>
                     )
                 })}
-
+            <TouchableOpacity style={styles.sendBtn} onPress={() =>props.navigation.navigate('HOME')} title='Send'>
+                <Text style={styles.send}>Back to Home</Text>
+            </TouchableOpacity>
             </ScrollView>
-        </View>
+            </>}
+            
+        </ImageBackground>
+        
 
     )
 }
@@ -64,21 +68,36 @@ const styles= StyleSheet.create({
         textAlign:'center',
         color:'white',
         fontWeight:'bold',
-        backgroundColor:'rgba(193,66,66,0.56)'
+        backgroundColor:'rgba(100,95,206,0.56)'
     },
     itineraries:{
         flex:1,
-        backgroundColor:'pink'
     },
     
     noResults:{
-        padding:15,
+       
+       
+        backgroundColor:'#ededf5',
+        alignItems:'center',
+        justifyContent:'center',
         height:120,
-        width:'100%',
+        margin:'4%',
+        borderRadius:10
     },
-    lottie: {
-        width: 100,
-        height: 100
-      }
+    sendBtn:{
+        backgroundColor:'#322b53',
+        alignItems:'center',
+        justifyContent:'center',
+        borderRadius:20,
+        alignSelf:'center',
+        width:120,
+        height:20,
+        margin:'5%'
+    },
+    send:{
+        color:'white',
+        fontWeight:'bold'
+
+    },
 })
 export default Itineraries

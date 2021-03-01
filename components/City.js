@@ -1,10 +1,13 @@
 import React from 'react'
 import {Text,View,ImageBackground, StyleSheet} from 'react-native'
+import {useEffect} from 'react'
 
 
 
-const City = ({city}) =>{
-
+const City = ({city,setSearch}) =>{
+    useEffect(() => {
+        setSearch('')
+    }, [])
     return (
 
             <View style={styles.city}>
@@ -19,11 +22,10 @@ const City = ({city}) =>{
 const styles = StyleSheet.create({
     city:{
         flex:1,
-        height:150,
         justifyContent:'center',
         alignItems:'center',
-        borderRadius:15,
         margin: 6,
+    
     
     },
     cityImg:{
@@ -33,25 +35,15 @@ const styles = StyleSheet.create({
         alignSelf:'center',
         justifyContent:'center',
         alignItems:'center',
-        height:150,
-       
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 8,
-        },
-        shadowOpacity: 0.46,
-        shadowRadius: 11.14,
-
-        elevation: 11,
-            
+        height:125,  
+    
     },
     cityName:{
         fontSize:20,
         width:'100%',
         color:'white',
         fontWeight:'bold',
-        backgroundColor:'rgba(193,66,66,0.56)',  
+        backgroundColor:'rgba(100,95,206,0.56)',  
         textAlign:'center'
     }
 })

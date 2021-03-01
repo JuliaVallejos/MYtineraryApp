@@ -9,11 +9,11 @@ const initialState ={
       
         
             case 'LOGIN':
-                console.log(action.payload)
-             
-                AsyncStorage.setItem('name',action.payload.name)
-                AsyncStorage.setItem('userPic',action.payload.userPic)
-                AsyncStorage.setItem('token',action.payload.token)
+         
+             AsyncStorage.setItem('name',action.payload.name)
+             AsyncStorage.setItem('userPic',action.payload.userPic)
+             AsyncStorage.setItem('token',action.payload.token)
+          
             return {
                 ...state,
                 loggedUser:action.payload,
