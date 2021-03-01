@@ -52,14 +52,18 @@ const userActions  ={
             if(error.response)
               {if(error.response.status===401){
               AsyncStorage.clear()
-                const backToHome ='/'
-                return backToHome}
+               .then((clear)=>{
+                ToastAndroid.show(`You're not authorized`,ToastAndroid.LONG)
+                return clear}
+               ).catch(e => {
+                return e
+               })
               }else {
               return error}
             }
               
             }
-          },
+          }},
         logout_user:()=>{
           return async (dispatch,getstate) => {
             const clearAll = async () => {

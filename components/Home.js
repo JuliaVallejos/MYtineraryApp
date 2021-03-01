@@ -1,4 +1,4 @@
-import {ImageBackground, StyleSheet,Text,View,Image, Button} from 'react-native'
+import {ImageBackground, StyleSheet,LogBox,Text,View,Image, Button} from 'react-native'
 import { StatusBar } from 'expo-status-bar';
 
 import {useState,useEffect} from 'react'
@@ -9,8 +9,8 @@ import React from 'react';
 
 const Home = (props) =>{
     const {navigation,loggedUser} = props
-    const[fontLoaded,setFontLoaded] = useState(false)
- 
+
+    LogBox.ignoreLogs(['componentWillReceiveProps has been renamed, and is not recommended for use'])
     return(
         
                 <ImageBackground source={{uri:'https://static.vecteezy.com/system/resources/previews/000/626/032/non_2x/soft-geometric-abstract-background-in-light-colors-vector.jpg'}} resizeMode='cover' style={styles.bgImage}>

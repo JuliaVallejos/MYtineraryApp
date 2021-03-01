@@ -15,6 +15,7 @@ const Itineraries = (props) =>{
     LogBox.ignoreLogs([
         'Non-serializable values were found in the navigation state',
       ]);
+    
    useEffect(() => {
        setLoading(true)
     fetch(`https://mytinerary-api.herokuapp.com/api//${idCity}/itineraries`)
