@@ -11,7 +11,6 @@ const initialState ={
             case 'LOGIN':
          
              AsyncStorage.setItem('name',action.payload.name)
-             AsyncStorage.setItem('userPic',action.payload.userPic)
              AsyncStorage.setItem('token',action.payload.token)
           
             return {
@@ -20,9 +19,7 @@ const initialState ={
             
             }
         case 'LOGOUT':
-            AsyncStorage.clear()
-           
-            return{
+           return{
                 ...state,
                 loggedUser:null
                 

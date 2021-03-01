@@ -33,7 +33,7 @@ const SignUp = ({loggedUser,createNewUser,navigation}) =>{
             }
 
             const data= await createNewUser(newUser)
-            console.log(data)
+          
             if (!data.errores){
                 ToastAndroid.show(`Welcome ${data.name}`,ToastAndroid.LONG)
 
@@ -52,8 +52,9 @@ const SignUp = ({loggedUser,createNewUser,navigation}) =>{
         <ImageBackground style={styles.bgForm} source={require('../assets/background.jpg')}>
             
             <Text style={styles.title}>SIGN UP</Text>
-            <KeyboardAvoidingView  behavior={"height"} style={styles.containerForm}>      
-           <View style={styles.form}> 
+            <KeyboardAvoidingView  behavior={"height"} style={styles.containerForm}>
+           
+            <View style={styles.form}> 
                 <TextInput style={styles.inp} onChangeText={(name) =>setNewUser({...newUser,name})}  placeholder='First Name*'/>
                 <TextInput style={styles.inp} onChangeText={(lastName) =>setNewUser({...newUser,lastName})}  placeholder='Last Name*'/>
                 <TextInput style={styles.inp} onChangeText={(username) =>setNewUser({...newUser,username})}  placeholder='Username(email)*'/>
@@ -62,11 +63,11 @@ const SignUp = ({loggedUser,createNewUser,navigation}) =>{
                 <TouchableOpacity style={styles.sendBtn} onPress={send_data}title='Send'>
                     <Text style={styles.send}>SEND</Text>
                 </TouchableOpacity>
-                {console.log(errors)}
+           
                 {errors.length!==0&& errors.map((error,index)=><Text key={index} style={styles.error}>{error.message}</Text>)}
                 <Text style={{color:'#322b53',textAlign:'center'}} onPress={() =>navigation.navigate('LOGIN')}>Do you already have an account? Log in here</Text>
-           </View> 
-           
+           </View>
+       
          </KeyboardAvoidingView>
         <View style={styles.logo}>
             <ImageBackground style={styles.logoImg} resizeMode='contain' source={require('../assets/logo_transparent.png')}>
@@ -98,9 +99,12 @@ const styles = StyleSheet.create({
 
     },
     form:{
-        justifyContent:'space-between', 
-        width:'70%',
-        flex:1,
+       justifyContent:'space-between',
+       alignSelf:'center',
+        width:'80%',
+       flex:1,
+       height:350,
+    
     },
   
     inp:{

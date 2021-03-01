@@ -1,6 +1,6 @@
 import React from 'react'
 import {useState,useEffect} from 'react'
-import { ImageBackground, StyleSheet, Text, View,TouchableOpacity } from 'react-native'
+import { ImageBackground, StyleSheet, Text,LogBox, View,TouchableOpacity } from 'react-native'
 import SingleItinerary from './SingleItinerary'
 import { ScrollView } from 'react-native-gesture-handler'
 import Spinner from 'react-native-loading-spinner-overlay'
@@ -10,8 +10,11 @@ const Itineraries = (props) =>{
     const cityName=props.route.params.cityName
     const cityPic=props.route.params.cityPic
     const [loading,setLoading] = useState(false)
-
     const [itineraries,setItineraries]=useState([])
+
+    LogBox.ignoreLogs([
+        'Non-serializable values were found in the navigation state',
+      ]);
    useEffect(() => {
        setLoading(true)
     fetch(`https://mytinerary-api.herokuapp.com/api//${idCity}/itineraries`)
@@ -21,9 +24,9 @@ const Itineraries = (props) =>{
          setLoading(false)})
       .catch(error =>console.log(error))
   }, []) 
-   useEffect(() => {
-    props.route.params.setSearch('')
-}, []) 
+     useEffect(() => {
+    props.route.params.setSearch('')    
+    }, [])  
 
     return(
         <ImageBackground source={require('../assets/background.jpg')}style={styles.itineraries}>

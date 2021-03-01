@@ -43,7 +43,11 @@ const [search,setSearch] = useState('')
             {!loading && filteredCities.map(city =>{
                 return(
   
-                 <TouchableHighlight activeOpacity = { 0.9 } underlayColor = '#3F7FBF' onPress={() =>  props.navigation.navigate('ITINERARIES',{idCity:city._id,cityName:city.cityName,cityPic:city.cityPic,setSearch}) } key={city._id} style={styles.city} > 
+                 <TouchableHighlight activeOpacity = { 0.9 } underlayColor = '#3F7FBF' onPress={() => {
+              
+                    props.navigation.navigate('ITINERARIES',{idCity:city._id,cityName:city.cityName,cityPic:city.cityPic,setSearch}) 
+  
+                 } } key={city._id} style={styles.city} > 
                      
                          <City setSearch={setSearch} key={city._id} city={city}/>   
                    

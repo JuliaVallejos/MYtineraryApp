@@ -21,21 +21,22 @@ const Stack = createStackNavigator()
 const Drawer= createDrawerNavigator()
 
 const Navigator = ({loggedUser,logout_user,login_AS}) =>{
-    const [renderAgain,setRenderAgain] = useState(false)
 
-const StackNavigator= () =>{
-    const data = AsyncStorage.getItem('token')
-    if(data => console.log(data))
-   if(AsyncStorage.getItem('token')){
-        login_AS(AsyncStorage.getItem('token'))
-        .then(backToHome => 
-          {
-            if(backToHome==='/'){
-            setRenderAgain(!renderAgain)}
-            
-        })
-        .catch(error => setRenderAgain(!renderAgain))
-      } 
+    const loginAS = async () =>{
+        const data = await AsyncStorage.getItem('token')
+ 
+    if(data){
+         login_AS(data)
+     
+         
+       } else{
+           return false
+       }
+     }
+     if(!loggedUser){
+         loginAS()}
+const StackNavigator=  () =>{
+
     return(
         
         <Stack.Navigator screenOptions={{
@@ -47,7 +48,7 @@ const StackNavigator= () =>{
             headerRight: () => (
                loggedUser&&
                <View style={{flexDirection:'row',width:120,justifyContent:'space-around',alignItems:'center'}}>
-               <Text style={{fontWeight:'bold'}}>{loggedUser.name}</Text>
+               <Text style={{fontWeight:'bold',color:'white'}}>{loggedUser.name}</Text>
                <TouchableOpacity style={{padding:3,borderWidth:1,borderRadius:5,borderColor:'black',backgroundColor:'#d5f1f2'}}
                 onPress={() =>{
                     ToastAndroid.show('See you later!',ToastAndroid.SHORT)
@@ -56,12 +57,11 @@ const StackNavigator= () =>{
                 ><Text>LOGOUT</Text>
                 </TouchableOpacity>
                 </View>
-            ),
+            )
             }}>
-        <Stack.Screen name='HOME'  options={{headerShown:false}} component={Home}/>
+        <Stack.Screen name='HOME' options={{title:''}} component={Home}/>
         <Stack.Screen name="CITIES" component={Cities}/>
         <Stack.Screen name='ITINERARIES' component={Itineraries}/>
-       
     </Stack.Navigator>
     )
 }
@@ -74,6 +74,7 @@ const StackNavigator= () =>{
              drawerContentOptions={{
                 activeTintColor: '#45605c'}}>
           <Drawer.Screen name='HOME' children={StackNavigator} />
+       
      
         {!loggedUser&&
             <>
@@ -83,21 +84,6 @@ const StackNavigator= () =>{
         }
         </Drawer.Navigator>
        
-        {/* <Stack.Navigator>
-        <Stack.Screen name="Home" component={Home} />
-
-        
-    {/*  <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="SignUp" component={SignUp} /> 
-
-        <Stack.Screen name='Cities' component={Cities}/>
-        <Stack.Screen name='Itineraries' component={Itineraries}/>
-        </Stack.Navigator> 
-    <View style={styles.container}>
-    <Home/> 
-        <Login/> 
-    <SignUp/> 
-        </View> */}
     </TouchableWithoutFeedback>
 
   </NavigationContainer>

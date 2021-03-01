@@ -30,7 +30,7 @@ const userActions  ={
               return data.data
               }
           }catch(error){
-            console.log(error)
+       
             const data ={errores:{details:[{message:'An error occurred'}]}}
             return data
           }}},
@@ -62,8 +62,22 @@ const userActions  ={
           },
         logout_user:()=>{
           return async (dispatch,getstate) => {
-          dispatch({type:'LOGOUT', payload:''})
-        }}
+            const clearAll = async () => {
+              try {
+                await AsyncStorage.clear()
+              } catch(e) {
+                console.log(e)
+              }
+            
+             
+              dispatch({type:'LOGOUT', payload:''})}
+              
+              clearAll()
+            }
+           
+           
+          
+        }
        
         
     }

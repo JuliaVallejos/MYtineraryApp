@@ -15,7 +15,7 @@ const Home = (props) =>{
         
                 <ImageBackground source={{uri:'https://static.vecteezy.com/system/resources/previews/000/626/032/non_2x/soft-geometric-abstract-background-in-light-colors-vector.jpg'}} resizeMode='cover' style={styles.bgImage}>
                    
-                   {loggeUser && <Text style={styles.menu}>Hi {loggedUser.name}</Text>}
+                   
                     
                     <View style={styles.logo}>
                         <ImageBackground style={styles.logoImg} resizeMode='contain' source={require('../assets/logo_transparent.png')}>
@@ -58,10 +58,11 @@ const styles = StyleSheet.create({
     },
     menu:{
         color:'black',
-        margin:'5%',
+        marginTop:'10%',
         padding:'6%',
-        backgroundColor:'yellowgreen',
-        alignSelf:'flex-end'
+        width:'40%',
+        alignSelf:'center',
+        borderRadius:10
     },
     text:{
         fontSize:25,
