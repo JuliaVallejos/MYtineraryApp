@@ -69,10 +69,12 @@ const SignUp = ({loggedUser,createNewUser,navigation}) =>{
            </View>
        
          </KeyboardAvoidingView>
-        <View style={styles.logo}>
+        <TouchableOpacity onPress={() =>navigation.navigate('HOME')} style={styles.logo}>
             <ImageBackground style={styles.logoImg} resizeMode='contain' source={require('../assets/logo_transparent.png')}>
             </ImageBackground>
-         </View>
+ 
+         </TouchableOpacity>
+         
          
         </ImageBackground>
         </TouchableWithoutFeedback>
